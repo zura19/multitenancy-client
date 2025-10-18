@@ -56,3 +56,24 @@ export const createTaskFormSchema = z.object({
 });
 
 export type createTaskFormSchemaType = z.infer<typeof createTaskFormSchema>;
+
+export const changeCompanyPasswordFormSchema = z
+  .object({
+    currentPassword: z.string().min(1, { message: "Password is required" }),
+    newPassword: z
+      .string()
+      .min(1, { message: "Password is required" })
+      .min(8, { message: "Password must be at least 8 characters" }),
+    confirmPassword: z
+      .string()
+      .min(1, { message: "Password is required" })
+      .min(8, { message: "Password must be at least 8 characters" }),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export type changeCompanyPasswordFormSchemaType = z.infer<
+  typeof changeCompanyPasswordFormSchema
+>;

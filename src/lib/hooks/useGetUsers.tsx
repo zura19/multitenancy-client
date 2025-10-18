@@ -4,7 +4,7 @@ import { getUsers } from "@/services/userService";
 import { useSearchParams } from "react-router-dom";
 
 export default function useGetUsers() {
-  const { isCompanyAdmin } = useUser();
+  const { isCompanyAdmin, user } = useUser();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const query = searchParams.toString();
@@ -23,7 +23,7 @@ export default function useGetUsers() {
   }
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["users", query],
+    queryKey: ["users", query, user?.id],
     queryFn: () => getUsers(query),
   });
 

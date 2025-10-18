@@ -16,7 +16,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={isAuth ? <Home /> : <Navigate to="/login" />}
+          />
           <Route
             path="/users"
             element={isAuth ? <Users /> : <Navigate to="/login" />}
