@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { removeUser } from "@/services/userService";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { UserX } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -24,7 +25,7 @@ export default function RemoveUserDialog({ children, userId }: props) {
   const queryClient = useQueryClient();
 
   const { mutateAsync: remove, isPending } = useMutation({
-    mutationFn: () => removeUser(userId),
+    mutationFn: async () => await removeUser(userId),
     onSuccess: () => {
       toast.success("User removed successfully!");
       setOpen(false);
@@ -48,10 +49,14 @@ export default function RemoveUserDialog({ children, userId }: props) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction disabled={isPending} onClick={() => remove()}>
-            Continue
+          <AlertDialogAction
+            disabled={isPending}
+            onClick={async () => await remove()}
+          >
+            <UserX className="size-4.5" />
+            {isPending ? "Removing..." : "Remove"}
           </AlertDialogAction>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
